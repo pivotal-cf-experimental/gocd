@@ -115,6 +115,7 @@ public class PipelineHistoryJsonPresentationModel implements JsonAware {
         json.put("forcedBuild", String.valueOf(hasForceBuildCause));
         json.put("showForceBuildButton", String.valueOf(showForceBuildButton()));
         json.put("canPause", String.valueOf(canPause));
+        json.put("comment", "Failed because of a bug #123.");
         json.putAll(pagination.toJsonMap());
         return json;
     }

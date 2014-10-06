@@ -134,6 +134,7 @@
                 {for stage in pipeline.stages}
                 <td {if stage_index == pipeline.stages.length - 1} class="last-stage"{/if}>
                     <div class="wrapper">
+
                         {if stage_index != 0}
                             {if stage.getCanRun == 'true' && stage.scheduled == 'false'}
                                  <button class="${% pipelineHistoryPage.getApprovalType(group.config, stage_index) %}-gate" title="Awaiting approval"
@@ -184,6 +185,21 @@
                 </td>
                 {/for}
                 <td class="spacer">&nbsp;</td>
+                <td>
+                    ${% data.comment %}
+                    <!-- test adding comment box -->
+                    <input id="comment-button-${% pipeline.label %}" type="button" value="Comment" onClick="Modalbox.show(jQuery('#comment_form_${% pipeline.label %}')[0]);">
+                    <div id="comment_form_${% pipeline.label %}" style="display: none;">
+                        <form action="">
+                              <input type="hidden" name="pipeline" value="${% data.pipelineName %}">
+                              <input type="hidden" name="run" value="${% pipeline.label %}">
+                              <input name="comment" type="text">
+                              <input type="submit">
+                        </form>
+                    </div>
+##                    Modalbox.show(jQuery('.license_about_to_expire.content')[0], {overlayClose: false, title: '<%= l.string("LICENSE_ABOUT_EXPIRE_POPUP_TITLE") %>'});
+                    <br><br>
+                </td>
             </tr>
             {/for}
         </tbody>

@@ -21,7 +21,7 @@ DashboardPeriodicalExecuter.prototype = {
         this.setUrl(url);
         this.sequenceNumber = 0;
         if (typeof frequency == "undefined") {
-            frequency = 5; //seconds
+            frequency = 1000; //seconds
         }
         this.frequency = frequency;
         this.observers = [];
