@@ -96,4 +96,6 @@ public interface PipelineDao {
     List<PipelineIdentifier> getPipelineInstancesTriggeredWithDependencyMaterial(String pipelineName, PipelineIdentifier revision);
 
     List<PipelineIdentifier> getPipelineInstancesTriggeredWithDependencyMaterial(String pipelineName, MaterialInstance materialInstance, String revision);
+
+    void updateComment(String pipelineName, int pipelineCounter, String comment);
 }

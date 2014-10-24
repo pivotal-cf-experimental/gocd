@@ -429,7 +429,7 @@ public class PipelineSqlMapDao extends SqlMapClientDaoSupport implements Pipelin
             public void run() {
                 LOGGER.info("Loading pipeline history to cache...Started");
                 for (PipelineInstanceModel pipeline : pipelines) {
-                    goCache.put(pipelineHistoryCacheKey(pipeline.getId()), pipeline);
+                    goCache.put(cacheKeyForPipelineHistory(pipeline.getId()), pipeline);
                 }
                 LOGGER.info("Loading pipeline history to cache...Done");
             }
@@ -541,7 +541,7 @@ public class PipelineSqlMapDao extends SqlMapClientDaoSupport implements Pipelin
     }
 
     public PipelineInstanceModel loadHistory(long id) {
-        String cacheKey = pipelineHistoryCacheKey(id);
+        String cacheKey = cacheKeyForPipelineHistory(id);
         PipelineInstanceModel result = (PipelineInstanceModel) goCache.get(cacheKey);
         if (result == null) {
             synchronized (cacheKey) {
@@ -634,11 +634,11 @@ public class PipelineSqlMapDao extends SqlMapClientDaoSupport implements Pipelin
     }
 
     private void removeStageSpecificCache(Stage stage) {
-        goCache.remove(pipelineHistoryCacheKey(stage.getPipelineId()));
+        goCache.remove(cacheKeyForPipelineHistory(stage.getPipelineId()));
         goCache.remove(cacheKeyForlatestPassedStage(stage.getPipelineId(), stage.getName()));
     }
 
-    String pipelineHistoryCacheKey(Long id) {
+    String cacheKeyForPipelineHistory(Long id) {
         return (PipelineSqlMapDao.class.getName() + "_pipelineHistory_" + id).intern();
     }
 
@@ -998,6 +998,12 @@ public class PipelineSqlMapDao extends SqlMapClientDaoSupport implements Pipelin
 		}
 		return pipelineIdentifiers;
 	}
+
+    @Override
+    public void updateComment(String pipelineName, int pipelineCounter, String comment) {
+        Map<String, Object> args = arguments("pipelineName", pipelineName).and("pipelineCounter", pipelineCounter).and("comment", comment).asMap();
+        getSqlMapClientTemplate().update("updatePipelineComment", args);
+    }
 
     private String cacheKeyForPipelineInstancesTriggeredWithDependencyMaterial(String pipelineName, String dependencyPipelineName, Integer dependencyPipelineCounter) {
         return (PipelineSqlMapDao.class + "_cacheKeyForPipelineInstancesWithDependencyMaterial_" + pipelineName + "_" + dependencyPipelineName + "_" + dependencyPipelineCounter).intern();
