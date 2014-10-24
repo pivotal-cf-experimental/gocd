@@ -109,6 +109,7 @@
                 </tr>
             {/if}
             {for pipeline in group.history}
+            ${% pipeline.comment %}
             <tr id="pipeline-${% pipeline.pipelineId %}">
                 <th class="pipeline-name" scope="row" style="${%pipelineHistoryPage.fixIEZIndexBugs()%}">
                     <div class="wrapper" style="${%pipelineHistoryPage.fixIEZIndexBugs()%}">
@@ -183,6 +184,16 @@
                     </div>
                 </td>
                 {/for}
+                        <td>
+                            ${% pipeline.comment %}
+                            <input id="comment-button-${% pipeline.label %}" type="button" value="Comment" onClick="Modalbox.show(jQuery('#comment_form_${% pipeline.label %}')[0]);">
+                            <div id="comment_form_${% pipeline.label %}" style="display: none;">
+                                <form action="/go/pipelines/${% data.pipelineName %}/${% pipeline.counter %}/comment" method="POST">
+                                    <input name="comment" type="text" value="${% pipeline.comment %}">
+                                    <input type="submit">
+                                </form>
+                            </div>
+                        </td>
                 <td class="spacer">&nbsp;</td>
             </tr>
             {/for}

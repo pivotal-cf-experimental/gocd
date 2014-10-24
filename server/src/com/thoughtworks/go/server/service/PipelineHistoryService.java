@@ -245,6 +245,10 @@ public class PipelineHistoryService implements PipelineInstanceLoader {
         return pipelineDao.getPageNumberForCounter(pipelineName, pipelineCounter, limit);
     }
 
+    public void updateComment(String pipelineName, int pipelineCounter, String comment) {
+        pipelineDao.updateComment(pipelineName, pipelineCounter, comment);
+    }
+
     private void addEmptyPipelineInstanceIfNeeded(String pipelineName, PipelineInstanceModels history, Username username, PipelineConfig pipelineConfig, boolean populateCanRun) {
         if (history.isEmpty()) {
             PipelineInstanceModel model = addEmptyPipelineInstance(pipelineName, username, pipelineConfig, populateCanRun);
