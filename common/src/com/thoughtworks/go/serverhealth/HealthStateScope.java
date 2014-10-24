@@ -61,7 +61,7 @@ public class HealthStateScope implements Comparable<HealthStateScope> {
     }
 
     public static HealthStateScope forMaterialConfig(MaterialConfig materialConfig) {
-        return new HealthStateScope(ScopeType.MATERIAL, materialConfig.getSqlCriteria().toString());
+        return new HealthStateScope(ScopeType.MATERIAL, materialConfig.getFingerprint());
     }
 
     public static HealthStateScope forMaterialConfigUpdate(MaterialConfig materialConfig) {
